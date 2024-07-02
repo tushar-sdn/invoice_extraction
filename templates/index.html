@@ -1,0 +1,129 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Invoice Data Extraction</title>
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Custom CSS for styling -->
+    <style>
+        body {
+            background-color: #fffacd; /* Faded yellow background */
+            color: #6c757d; /* Light grayish-green font color */
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Ensure container stretches to full viewport height */
+        }
+        .container {
+            margin-top: 50px; /* Margin for top spacing */
+            margin-bottom: 30px; /* Margin at the bottom */
+            width: 60%; /* Width of the container */
+            background-color: #ffffff; /* White background */
+            border-radius: 10px; /* Rounded corners */
+            padding: 30px; /* Padding inside the container */
+            box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.1); /* Soft box shadow */
+            flex: 1; /* Take remaining vertical space */
+        }
+        h1 {
+            text-align: center; /* Center align heading */
+            color: #da0b0b; /* Light green color */
+        }
+        form {
+            text-align: center; /* Center align form elements */
+        }
+        input[type=file] {
+            display: none; /* Hide the default file input */
+        }
+        .custom-file-upload {
+            border: 1px solid #5744c291; /* Light green border */
+            display: inline-block;
+            padding: 6px 12px;
+            cursor: pointer;
+            background-color: #ddebe9; /* Light green background */
+            color: hwb(16 0% 95%); /* White text */
+            border-radius: 5px; /* Rounded corners */
+        }
+        .custom-file-upload:hover {
+            background-color: #93d1cc; /* Darker shade of green on hover */
+            border-color: #5ea1a3; /* Darker shade of green on hover */
+        }
+        .btn-primary {
+            background-color: #438d89; /* Light green background */
+            border-color: #47c4c9; /* Light green border */
+        }
+        .btn-primary:hover {
+            background-color: #218838; /* Darker shade of green on hover */
+            border-color: #218838; /* Darker shade of green on hover */
+        }
+        .alert {
+            display: none; /* Hide alert by default */
+            margin-top: 20px;
+            color: #da0b0b; /* Red color */
+            font-weight: bold;
+        }
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #f8f9fa; /* Light gray background */
+            border-top: 1px solid #e9ecef; /* Light gray border */
+            color: #000; /* Black font color */
+            margin-top: auto; /* Push footer to bottom of viewport */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Invoice Data Extraction</h1>
+        <form id="uploadForm" method="post" action="/uploadInvoice" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="file" class="custom-file-upload">
+                    Choose Invoice Image
+                    <input type="file" id="file" name="files" multiple>
+                </label>
+            </div>
+            <button type="submit" class="btn btn-primary">Process</button>
+            <div id="fileAlert" class="alert">Please upload a file before processing!</div>
+        </form>
+    </div>
+
+    <footer>
+        Copyright © 1996-2024 smartData Enterprises
+    </footer>
+
+    <script>
+        document.getElementById('uploadForm').addEventListener('submit', function(event) {
+            const fileInput = document.getElementById('file');
+            const fileAlert = document.getElementById('fileAlert');
+            
+            // Check if files are selected
+            if (!fileInput.files.length) {
+                event.preventDefault(); // Prevent form submission
+                fileAlert.textContent = 'Please upload a file before processing!'; // Show alert
+                fileAlert.style.display = 'block';
+                return;
+            }
+
+            // Check each file for correct extension
+            let invalidFiles = false;
+            for (let i = 0; i < fileInput.files.length; i++) {
+                const fileName = fileInput.files[i].name;
+                const ext = fileName.substring(fileName.lastIndexOf('.') + 1).toLowerCase();
+                if (ext !== 'jpg' && ext !== 'png'&& ext !== 'jpeg') {
+                    invalidFiles = true;
+                    break;
+                }
+            }
+
+            if (invalidFiles) {
+                event.preventDefault(); // Prevent form submission
+                fileAlert.textContent = 'Only JPG, JPEG and PNG files are supported. Please upload a valid file.'; // Show specific alert
+                fileAlert.style.display = 'block';
+            } else {
+                fileAlert.style.display = 'none'; // Hide alert if all files are JPG or PNG
+            }
+        });
+    </script>
+</body>
+</html>

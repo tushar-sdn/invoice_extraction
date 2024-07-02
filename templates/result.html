@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Invoice Extraction Results</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            margin-top: 20px;
+        }
+        .container {
+            max-width: 800px;
+        }
+        pre {
+            background-color: #f9faf8;
+            padding: 15px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Extracted Data</h1>
+        <a href="/" class="btn btn-secondary mb-3">Upload More Files</a>
+        <div class="list-group">
+            {% for response in responses %}
+            {% set lines = response.split('\n') %}
+            <div class="list-group-item">
+                <h5>{{ lines[0] }}</h5> <!-- Display file name -->
+                <pre>{{ lines[1:]|join('\n') }}</pre> <!-- Display rest of the response -->
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

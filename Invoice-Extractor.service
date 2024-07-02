@@ -1,0 +1,16 @@
+[Unit]
+Description=Invoice-Extractor
+After=network.target
+
+[Service]
+WorkingDirectory=/var/www/Invoice-Extractor
+Environment="PATH=/var/www/Invoice-Extractor/env/bin"
+ExecStart=/var/www/Invoice-Extractor/env/bin/python /var/www/Invoice-Extractor/run.py
+Restart=always
+User=flaskuser
+Group=www-data
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
